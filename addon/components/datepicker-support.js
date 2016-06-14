@@ -43,7 +43,8 @@ export default Ember.Mixin.create({
         todayHighlight: this.get('todayHighlight'),
         toggleActive: this.get('toggleActive'),
         weekStart: this.get('weekStart'),
-        datesDisabled: this.get('datesDisabled')
+        datesDisabled: this.get('datesDisabled'),
+        beforeShowDay: this.get('beforeShowDay')
       }).
       on('changeDate', event => {
         Ember.run(() => {
@@ -130,6 +131,12 @@ export default Ember.Mixin.create({
       let format = this._toString(this.get('format'));
       this.$().datepicker('format', format);
       this.$().data('datepicker')._process_options({format: format});
+      this._updateDatepicker();
+    });
+
+    this.addObserver('beforeShowDay', function() {
+      this.$().datepicker('beforeShowDay', this.get('beforeShowDay'));
+      this.$().data('datepicker')._process_options({beforeShowDay: this.get('beforeShowDay')});
       this._updateDatepicker();
     });
   }),
